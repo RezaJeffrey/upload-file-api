@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     # local apps
     'users',
+    'files'
 ]
 
 MIDDLEWARE = [
@@ -95,7 +96,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
+# TODO uncomment these
 # REST FRAMEWORK
 # REST_FRAMEWORK = {
 #     'DEFAULT_AUTHENTICATION_CLASSES': [
