@@ -17,7 +17,9 @@ class File(DateTimeMixin):
 
     def __str__(self):
         if self.title:
-            return f'{self.user.name} - {self.title}'
+            return f'{self.user.username} - {self.title}'
         else:
-            return f'{self.user.name} - {self.pk}'
+            return f'{self.user.username} - {self.pk}'
 
+    def file_username(self):
+        return self.user.username
