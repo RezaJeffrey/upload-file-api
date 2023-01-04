@@ -1,6 +1,6 @@
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
-from rest_framework.permissions import IsAdminUser, IsAuthenticated
+from rest_framework.permissions import IsAdminUser, IsAuthenticated, AllowAny
 from rest_framework import status
 from rest_framework.decorators import action
 from django.contrib.auth import get_user_model
@@ -14,7 +14,6 @@ User = get_user_model()
 
 class UserViewSet(ModelViewSet):
     # TODO set permissions on list and retrieve
-    queryset = User.objects.all()
 
     def get_serializer_class(self):
         if self.action == 'create':
@@ -26,14 +25,19 @@ class UserViewSet(ModelViewSet):
 
         return UserSerializer
 
-    # def get_permissions(self):
-    #     if self.action == 'create':
-    #         permission_classes = []
-    #     elif self.action == 'list':
-    #         permission_classes = [IsAdminUser]
-    #     else:
-    #         permission_classes = [IsAuthenticated]
-    #     return [permission() for permission in permission_classes]
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_superuser:
+            return User.objects.all()
+        else:
+            return User.objects.filter(pk=user.pk)
+
+    def get_permissions(self):
+        if self.action == 'create':
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [IsAuthenticated]
+        return [permission() for permission in permission_classes]
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
