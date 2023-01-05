@@ -12,10 +12,7 @@ User = get_user_model()
 class FileViewSet(ModelViewSet):
 
     def get_permissions(self):
-        if self.action == 'get':
-            permission_classes = (AllowAny,)
-        else:
-            permission_classes = (IsAuthenticated,)
+        permission_classes = (IsAuthenticated,)
         return [permission() for permission in permission_classes]
 
     def get_queryset(self):

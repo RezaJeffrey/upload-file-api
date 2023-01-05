@@ -13,7 +13,7 @@ User = get_user_model()
 
 
 class UserViewSet(ModelViewSet):
-    # TODO set permissions on list and retrieve
+    # TODO [test] check permissions in tests
 
     def get_serializer_class(self):
         if self.action == 'create':
